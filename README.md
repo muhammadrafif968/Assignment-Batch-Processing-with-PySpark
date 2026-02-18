@@ -16,14 +16,14 @@ container.
 
 ## Project Structure
 
-data-engineer-toolkit/
-├── airflow/
-│   └── data/            # source CSV data (orders, order_items)
-├── spark/
-│   ├── scripts/         # PySpark batch job (assignment_day_44.py)
-│   └── data/            # output parquet (fact_orders.parquet)
-├── docker-compose.yaml
-└── README.md
+    Assignment-Batch-Processing-with-PySpark/
+    ├── airflow/
+    │   └── data/            # source CSV data (orders, order_items)
+    ├── spark/
+    │   ├── scripts/         # PySpark batch job (assignment_day_44.py)
+    │   └── data/            # output parquet (fact_orders.parquet)
+    ├── docker-compose.yaml
+    └── README.md
 
 ## How to Run
 
@@ -55,3 +55,4 @@ Hasil transformasi disimpan dalam format Parquet di folder:
 `spark/data/fact_orders.parquet`
 
 Folder ini merupakan bind mount ke host, sehingga file Parquet bisa langsung diakses dari Windows dan di-versioning ke GitHub (kecuali file besar, sebaiknya di-ignore via `.gitignore`).
+
