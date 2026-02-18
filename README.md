@@ -1,24 +1,57 @@
-# data-engineer-toolkit
+# Batch Processing with PySpark Assignment
 
-## airflow
-`docker compose --profile airflow up -d`
+## Overview
 
-## grafana
-`docker compose --profile grafana up -d`
+Project ini menjalankan pipeline data menggunakan PySpark yang di-deploy
+lewat Docker container (spark-master). Dataset disimpan dalam format
+Parquet dan di-mount dari local Windows (WSL path `/mnt/e/...`) ke
+container.
 
-## postgres
-`docker compose --profile postgres up -d`
-or `docker compose --profile db up -d` (mysql + postgres)
+## Tech Stack
 
-## mysql
-`docker compose --profile mysql up -d`
-or `docker compose --profile db up -d` (mysql + postgres)
+-   PySpark
+-   Docker & Docker Compose
+-   Parquet files
+-   WSL (Windows bind mount)
 
-## hive
-`docker compose --profile hive up -d`
+## Project Structure
 
-## kafka
-`docker compose --profile kafka up -d`
+data-engineer-toolkit/
+├── airflow/
+│   └── data/            # source CSV data (orders, order_items)
+├── spark/
+│   ├── scripts/         # PySpark batch job (assignment_day_44.py)
+│   └── data/            # output parquet (fact_orders.parquet)
+├── docker-compose.yaml
+└── README.md
 
-## spark
-`docker compose --profile spark up -d`
+## How to Run
+
+1.  Start container
+
+``` bash
+docker compose up -d
+```
+
+2.  Masuk ke spark container
+
+``` bash
+docker exec -it spark-master bash
+```
+
+3.  Jalankan spark job / pyspark script sesuai assignment.
+
+## Notes (Important)
+
+Folder `/spark/data` adalah bind mount dari Windows (`/mnt/e/...`), jadi:
+- Permission `chmod` di dalam container tidak akan berpengaruh
+- Permission harus diatur dari host (Windows / WSL), bukan dari container
+
+Ini normal behavior kalau pakai Docker + WSL bind mount.
+
+## Output
+
+Hasil transformasi disimpan dalam format Parquet di folder:
+`spark/data/fact_orders.parquet`
+
+Folder ini merupakan bind mount ke host, sehingga file Parquet bisa langsung diakses dari Windows dan di-versioning ke GitHub (kecuali file besar, sebaiknya di-ignore via `.gitignore`).
